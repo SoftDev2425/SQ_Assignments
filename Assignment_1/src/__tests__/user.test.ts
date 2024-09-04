@@ -1,5 +1,7 @@
 import supertest from "supertest";
-import { app } from "../server";
+import createServer from "../utils/server";
+
+const app = createServer();
 
 describe("User", () => {
   test("should get all users", async () => {
@@ -14,7 +16,6 @@ describe("User", () => {
     // Arrange
     // Act
     // Assert
-
     await supertest(app).get("/api/user").expect(200);
   });
 
