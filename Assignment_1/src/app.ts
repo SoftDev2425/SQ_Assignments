@@ -3,7 +3,7 @@ import createServer from "./utils/server";
 
 export const prisma = new PrismaClient();
 
-const app = createServer();
+export const app = createServer();
 
 const port = 8080;
 

@@ -1,7 +1,8 @@
 import supertest from "supertest";
+import { app } from "../app";
 import createServer from "../utils/server";
 
-const app = createServer();
+// const app = createServer();
 
 describe("User", () => {
   test("should get all users", async () => {
