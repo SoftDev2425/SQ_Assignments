@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { prisma } from "../app";
+import { getAllUsers } from "../service/user.service";
 
 const getUserById = async (req: Request, res: Response) => {
   try {
@@ -43,9 +44,9 @@ const createUser = async (req: Request, res: Response) => {
   }
 };
 
-const getAllUsers = async (req: Request, res: Response) => {
+const getAllUsersEP = async (req: Request, res: Response) => {
   try {
-    const users = await prisma.user.findMany();
+    const users = await getAllUsers();
     res.status(200).json(users);
   } catch (error) {
     res.status(500).json({ error });
@@ -55,5 +56,5 @@ const getAllUsers = async (req: Request, res: Response) => {
 export default {
   getUserById,
   createUser,
-  getAllUsers,
+  getAllUsersEP,
 };
