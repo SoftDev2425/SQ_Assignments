@@ -1,20 +1,20 @@
 import { Request, Response } from "express";
 import { prisma } from "../app";
 
-const getTaskById = async (req: Request, res: Response) => {};
+const getTaskByIdEP = async (req: Request, res: Response) => {};
 
-const createTask = async (req: Request, res: Response) => {};
+const createTaskEP = async (req: Request, res: Response) => {};
 
-const getAllTasks = async (req: Request, res: Response) => {};
+const getAllTasksEP = async (req: Request, res: Response) => {};
 
-const updateTask = async (req: Request, res: Response) => {};
+const updateTaskEP = async (req: Request, res: Response) => {};
 
-const deleteTask = async (req: Request, res: Response) => {};
+const deleteTaskEP = async (req: Request, res: Response) => {};
 
 export default {
-  getTaskById,
-  createTask,
-  getAllTasks,
-  updateTask,
-  deleteTask,
+  getTaskByIdEP,
+  createTaskEP,
+  getAllTasksEP,
+  updateTaskEP,
+  deleteTaskEP,
 };
