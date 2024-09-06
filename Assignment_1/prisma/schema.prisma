@@ -14,6 +14,8 @@ model User {
   id        String      @id @default(cuid())
   name      String
   password  String
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
   tasksList TasksList[]
 }
 
@@ -25,6 +27,8 @@ model Task {
   completed   Boolean    @default(false)
   TasksList   TasksList? @relation(fields: [tasksListId], references: [id])
   tasksListId String?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
 }
 
 model TasksList {
@@ -33,4 +37,6 @@ model TasksList {
   tasks  Task[]
   User   User?   @relation(fields: [userId], references: [id])
   userId String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
