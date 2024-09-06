@@ -10,8 +10,8 @@ export const getUserById = async (id: string) => {
       select: {
         id: true,
         name: true,
-        createdAt: true,
-        updatedAt: true,
+        // createdAt: true,
+        // updatedAt: true,
       },
     });
 
