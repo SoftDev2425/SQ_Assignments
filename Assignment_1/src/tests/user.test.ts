@@ -1,32 +1,50 @@
 import supertest from "supertest";
-import { app } from "../app";
-import { prisma } from "../app";
 import { getUserById } from "../service/user.service";
+import { app } from "./setup/setup";
+import prisma from "../../prisma/client";
 // import createServer from "../utils/server";
 
-// const app = createServer();
-
 describe("Get user by id", () => {
-  it("should return a user when the id exists", async () => {
-    const mockUser = { id: "1", name: "John Doe" };
-    prisma.user.findUnique = jest.fn().mockResolvedValue(mockUser);
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
 
+  test("should return a user when the id exists", async () => {
+    // Arrange
+    const mockUser = { id: "1", name: "John Doe", createdAt: new Date(), updatedAt: new Date() };
+    prisma.users.findFirst = jest.fn().mockResolvedValue(mockUser);
+
+    // Act
     const result = await getUserById("1");
+
+    // Assert
+    expect(prisma.users.findFirst).toHaveBeenCalledTimes(1);
+    expect(prisma.users.findFirst).toHaveBeenCalledWith({
+      where: { id: "1" },
+      select: { id: true, name: true, createdAt: true, updatedAt: true },
+    });
     expect(result).toEqual(mockUser);
   });
-});
 
-describe("User", () => {
-  test("should get all users", async () => {
-    // Arrange, Act, Assert
-    await supertest(app).get("/api/user").expect(200);
+  test("should throw an error when the id does not exist", async () => {
+    // Arrange
+    prisma.users.findFirst = jest.fn().mockResolvedValue(null);
+
+    // Act
+    let error;
+    try {
+      await getUserById("1");
+    } catch (e) {
+      error = e;
+    }
+
+    // Assert
+    expect(prisma.users.findFirst).toHaveBeenCalledTimes(1);
+    expect(prisma.users.findFirst).toHaveBeenCalledWith({
+      where: { id: "1" },
+      select: { id: true, name: true, createdAt: true, updatedAt: true },
+    });
+    expect(error).toEqual(new Error("Failed to fetch user"));
   });
-
-  // test("should get user by id", async () => {
-  //   // test implementation
-  // });
-
-  // test("should create a user", async () => {
-  //   // test implementation
-  // });
 });
+
