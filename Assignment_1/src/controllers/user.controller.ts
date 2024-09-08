@@ -1,14 +1,14 @@
 import { Request, Response } from "express";
-import { prisma } from "../app";
 import { createUser, getAllUsers, getUserById } from "../service/user.service";
 
 const getUserByIdEP = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
 
-    const user = getUserById(id);
+    const user = await getUserById(id);
 
     if (!user) {
+      console.log("User not found");
       return res.status(404).json({ error: "User not found" });
     }
 
@@ -27,7 +27,7 @@ const createUserEP = async (req: Request, res: Response) => {
   }
 
   try {
-    const user = createUser(name, password);
+    const user = await createUser(name, password);
 
     if (!user) {
       return res.status(400).json({ error: "Failed to create user" });
