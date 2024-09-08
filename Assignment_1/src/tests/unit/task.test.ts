@@ -1,5 +1,5 @@
 import prisma from "../../../prisma/client";
-import { createTask, getAllTasks, getTaskById, updateTask } from "../../service/task.service";
+import { createTask, getAllTasks, getTaskById, updateTask, updateTaskStatus } from "../../service/task.service";
 
 describe("Task service", () => {
   beforeEach(() => {
@@ -187,6 +187,62 @@ describe("Task service", () => {
       },
     });
 
+    expect(result).toEqual(mockTaskData);
+  });
+
+  test("should update a task status to completed", async () => {
+    // Arrange
+    const mockTaskData = {
+      id: "1",
+      title: "Test task",
+      description: "Test description",
+      deadline: new Date("2021-09-01T00:00:00.000Z"),
+      completed: true,
+      usersId: "1",
+      tasksListsId: "1",
+    };
+
+    prisma.tasks.update = jest.fn().mockResolvedValue(mockTaskData);
+
+    // Act
+    const result = await updateTaskStatus("1", true);
+
+    // Assert
+    expect(prisma.tasks.update).toHaveBeenCalledTimes(1);
+    expect(prisma.tasks.update).toHaveBeenCalledWith({
+      where: { id: "1" },
+      data: {
+        completed: true,
+      },
+    });
+    expect(result).toEqual(mockTaskData);
+  });
+
+  test("should update a task status to not completed", async () => {
+    // Arrange
+    const mockTaskData = {
+      id: "1",
+      title: "Test task",
+      description: "Test description",
+      deadline: new Date("2021-09-01T00:00:00.000Z"),
+      completed: false,
+      usersId: "1",
+      tasksListsId: "1",
+    };
+
+    prisma.tasks.update = jest.fn().mockResolvedValue(mockTaskData);
+
+    // Act
+    const result = await updateTaskStatus("1", false);
+
+    // Assert
+    expect(prisma.tasks.update).toHaveBeenCalledTimes(1);
+    expect(prisma.tasks.update).toHaveBeenCalledWith({
+      where: { id: "1" },
+      data: {
+        completed: false,
+      },
+    });
     expect(result).toEqual(mockTaskData);
   });
 });

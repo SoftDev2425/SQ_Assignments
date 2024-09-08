@@ -1,5 +1,12 @@
 import { Request, Response } from "express";
-import { createTask, deleteTask, getAllTasks, getTaskById, updateTask } from "../service/task.service";
+import {
+  createTask,
+  deleteTask,
+  getAllTasks,
+  getTaskById,
+  updateTask,
+  updateTaskStatus,
+} from "../service/task.service";
 
 const handleCreateTask = async (req: Request, res: Response) => {
   const { title, description, deadline, completed, usersId, tasksListsId } = req.body;
@@ -81,10 +88,24 @@ const handleDeleteTask = async (req: Request, res: Response) => {
   }
 };
 
+const handleUpdateTaskStatus = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const { completed } = req.body;
+
+  try {
+    const task = await updateTaskStatus(id, completed as boolean);
+
+    return res.status(200).json(task);
+  } catch (e: any) {
+    return res.status(500).json({ error: e.message || "Internal server error" });
+  }
+};
+
 export default {
   handleGetTaskById,
   handleCreateTask,
   handleGetAllTasks,
   handleUpdateTask,
   handleDeleteTask,
+  handleUpdateTaskStatus,
 };

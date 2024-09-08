@@ -92,3 +92,17 @@ export const deleteTask = async (id: string) => {
     throw new Error("Error deleting task with id " + id);
   }
 };
+
+export const updateTaskStatus = async (id: string, completed: boolean) => {
+  try {
+    return await prisma.tasks.update({
+      where: { id },
+      data: {
+        completed,
+      },
+    });
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error updating task status with id " + id);
+  }
+};
