@@ -1,8 +1,5 @@
-import supertest from "supertest";
 import { createUser, getAllUsers, getUserById } from "../../service/user.service";
-import { app } from "../setup/setup";
 import prisma from "../../../prisma/client";
-// import createServer from "../utils/server";
 
 describe("Get user by id", () => {
   beforeEach(() => {

@@ -37,9 +37,15 @@ export const createTask = async (data: {
 
 export const getTaskById = async (id: string) => {
   try {
-    return await prisma.tasks.findUnique({
+    const task = await prisma.tasks.findUnique({
       where: { id },
     });
+
+    if (!task) {
+      throw new Error("Error getting task with id " + id);
+    }
+
+    return task;
   } catch (error) {
     console.error(error);
     throw new Error("Error getting task with id " + id);
