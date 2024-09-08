@@ -1,5 +1,5 @@
 import supertest from "supertest";
-import { getUserById } from "../../service/user.service";
+import { createUser, getAllUsers, getUserById } from "../../service/user.service";
 import { app } from "../setup/setup";
 import prisma from "../../../prisma/client";
 // import createServer from "../utils/server";
@@ -48,3 +48,49 @@ describe("Get user by id", () => {
   });
 });
 
+describe("Get all users", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  test("should return all users", async () => {
+    // Arrange
+    const mockUsers = [
+      { id: "1", name: "John Doe", createdAt: new Date(), updatedAt: new Date() },
+      { id: "2", name: "Jane Doe", createdAt: new Date(), updatedAt: new Date() },
+    ];
+    prisma.users.findMany = jest.fn().mockResolvedValue(mockUsers);
+
+    // Act
+    const result = await getAllUsers();
+
+    // Assert
+    expect(prisma.users.findMany).toHaveBeenCalledTimes(1);
+    expect(prisma.users.findMany).toHaveBeenCalledWith({
+      select: { id: true, name: true, createdAt: true, updatedAt: true },
+    });
+    expect(result).toEqual(mockUsers);
+  });
+});
+
+describe("Create user", () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+  it("should create a user", async () => {
+    // Arrange
+    const mockUser = { id: "1", name: "John Doe" };
+    prisma.users.create = jest.fn().mockResolvedValue(mockUser);
+
+    // Act
+    const result = await createUser("John Doe", "password123");
+
+    // Assert
+    expect(prisma.users.create).toHaveBeenCalledTimes(1);
+    expect(prisma.users.create).toHaveBeenCalledWith({
+      data: { name: "John Doe", password: "password123" },
+      select: { id: true, name: true, createdAt: true, updatedAt: true },
+    });
+    expect(result).toEqual(mockUser);
+  });
+});

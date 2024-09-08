@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { createTask, deleteTask, getAllTasks, getTaskById, updateTask } from "../service/task.service";
 
-const createTaskEP = async (req: Request, res: Response) => {
+const handleCreateTask = async (req: Request, res: Response) => {
   const { title, description, deadline, completed, usersId, tasksListsId } = req.body;
 
   try {
@@ -20,7 +20,7 @@ const createTaskEP = async (req: Request, res: Response) => {
   }
 };
 
-const getTaskByIdEP = async (req: Request, res: Response) => {
+const handleGetTaskById = async (req: Request, res: Response) => {
   const { id } = req.params;
 
   try {
@@ -36,7 +36,7 @@ const getTaskByIdEP = async (req: Request, res: Response) => {
   }
 };
 
-const getAllTasksEP = async (req: Request, res: Response) => {
+const handleGetAllTasks = async (req: Request, res: Response) => {
   try {
     const tasks = await getAllTasks();
 
@@ -46,7 +46,7 @@ const getAllTasksEP = async (req: Request, res: Response) => {
   }
 };
 
-const updateTaskEP = async (req: Request, res: Response) => {
+const handleUpdateTask = async (req: Request, res: Response) => {
   const { id } = req.params;
   const { title, description, deadline, completed, tasksListId } = req.body;
 
@@ -65,7 +65,7 @@ const updateTaskEP = async (req: Request, res: Response) => {
   }
 };
 
-const deleteTaskEP = async (req: Request, res: Response) => {
+const handleDeleteTask = async (req: Request, res: Response) => {
   const { id } = req.params;
 
   try {
@@ -82,9 +82,9 @@ const deleteTaskEP = async (req: Request, res: Response) => {
 };
 
 export default {
-  getTaskByIdEP,
-  createTaskEP,
-  getAllTasksEP,
-  updateTaskEP,
-  deleteTaskEP,
+  handleGetTaskById,
+  handleCreateTask,
+  handleGetAllTasks,
+  handleUpdateTask,
+  handleDeleteTask,
 };
