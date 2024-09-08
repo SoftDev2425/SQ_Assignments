@@ -9,7 +9,15 @@ export const createTask = async (data: {
   tasksListsId?: string;
 }) => {
   try {
-    return await prisma.tasks.create({
+    if (!data.title || data.title.length === 0) {
+      throw new Error("Please provide a title for the task");
+    }
+
+    if (data.deadline < new Date()) {
+      throw new Error("Please provide a future deadline for the task");
+    }
+
+    const newTask = await prisma.tasks.create({
       data: {
         title: data.title,
         description: data.description,
@@ -29,9 +37,11 @@ export const createTask = async (data: {
         }), // Conditionally include tasksList if tasksListId exists
       },
     });
+
+    return newTask;
   } catch (error) {
     console.error(error);
-    throw new Error("Error creating task");
+    throw error;
   }
 };
 

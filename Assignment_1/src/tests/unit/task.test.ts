@@ -155,7 +155,7 @@ describe("Task service", () => {
     const mockTaskData = {
       title: "Test task",
       description: "Test description",
-      deadline: new Date("2021-09-01T00:00:00.000Z"),
+      deadline: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
       completed: false,
       usersId: "1",
       tasksListsId: "1",
@@ -172,7 +172,7 @@ describe("Task service", () => {
       data: {
         title: "Test task",
         description: "Test description",
-        deadline: new Date("2021-09-01T00:00:00.000Z"),
+        deadline: mockTaskData.deadline,
         completed: false,
         user: {
           connect: {
