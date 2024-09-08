@@ -4,7 +4,6 @@ import { createUser, getAllUsers, getUserById } from "../service/user.service";
 const getUserByIdEP = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    console.log("Fetching user with ID:", id);
 
     const user = await getUserById(id);
 

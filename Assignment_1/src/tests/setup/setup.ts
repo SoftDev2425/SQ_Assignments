@@ -4,7 +4,6 @@ import createServer from "../../utils/server";
 export let app: any;
 
 global.beforeAll(async () => {
-  console.log("RUNNING BEFORE ALL IN SETUP");
   app = await createServer();
 });
 

@@ -19,8 +19,6 @@ describe("User", () => {
     // Act
     const response = await supertest(app).get(`/api/user/${user.id}`);
 
-    console.log(response.body);
-
     // Assert
     expect(response.status).toBe(200);
     expect(response.body).toEqual(userWithoutPass);
