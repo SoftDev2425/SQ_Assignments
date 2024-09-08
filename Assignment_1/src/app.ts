@@ -1,7 +1,5 @@
-import { PrismaClient } from "@prisma/client";
 import createServer from "./utils/server";
-
-export const prisma = new PrismaClient();
+import prisma from "../prisma/client";
 
 export const app = createServer();
 

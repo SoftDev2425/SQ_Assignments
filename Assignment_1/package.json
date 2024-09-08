@@ -7,7 +7,8 @@
     "db:migrate": "npx prisma migrate dev --name user-entity --create-only && npx prisma generate",
     "db:push": "npx prisma db push",
     "dev": "nodemon src/app.ts",
-    "test": "jest"
+    "test": "npm run test:migrate && jest --runInBand --verbose --coverage",
+    "test:migrate": "npx dotenv -e .env.test -- npx prisma migrate reset -f"
   },
   "keywords": [],
   "author": "",
@@ -22,6 +23,7 @@
     "@types/jest": "^29.5.12",
     "@types/node": "^22.5.3",
     "@types/supertest": "^6.0.2",
+    "dotenv-cli": "^7.4.2",
     "jest": "^29.7.0",
     "nodemon": "^3.1.4",
     "prisma": "^5.19.1",

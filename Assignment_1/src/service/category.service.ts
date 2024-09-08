@@ -1,4 +1,4 @@
-import { prisma } from "../app";
+import  prisma  from "../../prisma/client";
 
 export const createCategory = async (name: string, userId: string) => {
     try {

@@ -1,11 +1,10 @@
-import { prisma } from "../app";
+import prisma from "../../prisma/client";
 
 export const getUserById = async (id: string) => {
   try {
-    // don't select password
-    const user = await prisma.user.findUnique({
+    const user = await prisma.user.findFirst({
       where: {
-        id,
+        id: id,
       },
       select: {
         id: true,
@@ -15,10 +14,14 @@ export const getUserById = async (id: string) => {
       },
     });
 
+    if (!user) {
+      throw new Error("Failed to fetch user");
+    }
+
     return user;
   } catch (error) {
     console.error("Error fetching user by ID", error);
-    throw new Error("Failed to fetch user");
+    throw error;
   }
 };
 
@@ -37,6 +40,12 @@ export const createUser = async (name: string, password: string) => {
       data: {
         name,
         password,
+      },
+      select: {
+        id: true,
+        name: true,
+        createdAt: true,
+        updatedAt: true,
       },
     });
   } catch (error) {

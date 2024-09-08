@@ -7,4 +7,7 @@ module.exports = {
   verbose: true,
   forceExit: true,
   // clearMocks: true,
+  setupFilesAfterEnv: ["<rootDir>/src/tests/setup/setup.ts"],
+  setupFiles: ["<rootDir>/src/tests/setup/setup-env.ts"],
+  coveragePathIgnorePatterns: ["dist/", "firebase/", "mail/", "prisma/", "redis/"],
 };

@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,33 +7,36 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id        String      @id @default(cuid())
-  name      String
-  password  String
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
-  tasksList TasksList[]
+model Users {
+  id         String       @id @default(cuid())
+  name       String
+  password   String
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  tasksLists TasksLists[]
+  tasks      Tasks[]
 }
 
-model Task {
-  id          String     @id @default(cuid())
+model Tasks {
+  id          String      @id @default(cuid())
   title       String
   description String?
   deadline    DateTime?
-  completed   Boolean    @default(false)
-  TasksList   TasksList? @relation(fields: [tasksListId], references: [id])
+  completed   Boolean     @default(false)
+  tasksList   TasksLists? @relation(fields: [tasksListId], references: [id])
   tasksListId String?
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
+  user        Users?      @relation(fields: [userId], references: [id])
+  userId      String?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
 }
 
-model TasksList {
-  id     String  @id @default(cuid())
-  name   String?
-  tasks  Task[]
-  User   User?   @relation(fields: [userId], references: [id])
-  userId String?
+model TasksLists {
+  id        String   @id @default(cuid())
+  name      String?
+  tasks     Tasks[]
+  user      Users?   @relation(fields: [userId], references: [id])
+  userId    String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
