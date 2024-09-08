@@ -2,7 +2,7 @@ import prisma from "../../prisma/client";
 
 export const getUserById = async (id: string) => {
   try {
-    const user = await prisma.user.findFirst({
+    const user = await prisma.users.findFirst({
       where: {
         id: id,
       },
@@ -27,7 +27,7 @@ export const getUserById = async (id: string) => {
 
 export const getAllUsers = async () => {
   try {
-    return await prisma.user.findMany();
+    return await prisma.users.findMany();
   } catch (error) {
     console.error("Error fetching all users", error);
     throw new Error("Failed to fetch users");
@@ -36,7 +36,7 @@ export const getAllUsers = async () => {
 
 export const createUser = async (name: string, password: string) => {
   try {
-    return await prisma.user.create({
+    return await prisma.users.create({
       data: {
         name,
         password,

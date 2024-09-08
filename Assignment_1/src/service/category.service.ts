@@ -2,7 +2,7 @@ import  prisma  from "../../prisma/client";
 
 export const createCategory = async (name: string, userId: string) => {
     try {
-        return await prisma.tasksList.create({
+        return await prisma.tasksLists.create({
             data: {
               name,
               userId,
@@ -16,7 +16,7 @@ export const createCategory = async (name: string, userId: string) => {
 
 export const getCategories = async (userId: string) => {
     try {
-        return await prisma.tasksList.findMany({
+        return await prisma.tasksLists.findMany({
             where: {userId}
         });
     } catch (error) {
@@ -27,7 +27,7 @@ export const getCategories = async (userId: string) => {
 
 export const deleteCategory = async (id: string) => {
     try {
-        return await prisma.tasksList.delete({
+        return await prisma.tasksLists.delete({
             where: { id },
         });
     } catch (error) {

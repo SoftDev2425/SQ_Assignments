@@ -16,10 +16,10 @@ beforeEach(() => {
     jest.clearAllMocks(); // Clear previous mock data
 
     // Mock methods with predefined responses
-    prisma.user.findUnique = jest.fn().mockResolvedValue(mockUser);
-    prisma.tasksList.findMany = jest.fn().mockResolvedValue(mockCategories);
-    prisma.tasksList.create = jest.fn().mockResolvedValue(mockCategories[0]);
-    prisma.tasksList.delete = jest.fn().mockImplementation((data) => {
+    prisma.users.findUnique = jest.fn().mockResolvedValue(mockUser);
+    prisma.tasksLists.findMany = jest.fn().mockResolvedValue(mockCategories);
+    prisma.tasksLists.create = jest.fn().mockResolvedValue(mockCategories[0]);
+    prisma.tasksLists.delete = jest.fn().mockImplementation((data) => {
         return mockCategories.find(category => category.id === data.where.id);
     });
 });
@@ -44,7 +44,7 @@ describe("Get all categories for user", () => {
 
 describe("Delete category", () => {
     it("should delete a categoryt", async () => {
-        prisma.tasksList.findMany = jest.fn().mockResolvedValue([mockCategories[2]]);
+        prisma.tasksLists.findMany = jest.fn().mockResolvedValue([mockCategories[2]]);
         
         // Ensure the category exists before deletion
         const categoryBeforeDelete = await getCategories(mockUser.id);
@@ -53,7 +53,7 @@ describe("Delete category", () => {
         // Delete the category
         await deleteCategory(mockCategories[2].id);
 
-        prisma.tasksList.findMany = jest.fn().mockResolvedValue(mockCategories.filter(c => c.id !== mockCategories[2].id));
+        prisma.tasksLists.findMany = jest.fn().mockResolvedValue(mockCategories.filter(c => c.id !== mockCategories[2].id));
 
         // Check that the category no longer exists after deletion
         const categoriesAfterDelete = await getCategories(mockUser.id);
