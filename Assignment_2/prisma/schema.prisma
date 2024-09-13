@@ -15,6 +15,9 @@ model Users {
   updatedAt  DateTime     @updatedAt
   tasksLists TasksLists[]
   tasks      Tasks[]
+
+  @@unique([name])
+  @@index([id, name])
 }
 
 model Tasks {
@@ -29,6 +32,9 @@ model Tasks {
   userId      String?
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
+
+  @@unique([title])
+  @@index([id, title])
 }
 
 model TasksLists {
@@ -39,4 +45,7 @@ model TasksLists {
   userId    String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@unique([name])
+  @@index([id, name])
 }
