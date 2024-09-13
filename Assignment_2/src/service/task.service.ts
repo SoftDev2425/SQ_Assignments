@@ -1,4 +1,5 @@
 import prisma from "../../prisma/client";
+import { NotFoundError } from "../utils/NotFoundErrorClass";
 
 export const createTask = async (data: {
   title: string;
@@ -9,6 +10,14 @@ export const createTask = async (data: {
   tasksListsId?: string;
 }) => {
   try {
+    const user = await prisma.users.findUnique({
+      where: { id: data.usersId },
+    });
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
     if (!data.title || data.title.length === 0) {
       throw new Error("Please provide a title for the task");
     }
@@ -52,13 +61,13 @@ export const getTaskById = async (id: string) => {
     });
 
     if (!task) {
-      throw new Error("Error getting task with id " + id);
+      throw new NotFoundError("Error getting task with id " + id);
     }
 
     return task;
   } catch (error) {
     console.error(error);
-    throw new Error("Error getting task with id " + id);
+    throw error;
   }
 };
 
@@ -83,7 +92,13 @@ export const updateTask = async (
         description: data.description,
         deadline: data.deadline,
         completed: data.completed,
-        tasksListId: data.tasksListId ? data.tasksListId : "",
+        ...(data.tasksListId && {
+          tasksLists: {
+            connect: {
+              id: data.tasksListId,
+            },
+          },
+        }), // Conditionally include tasksList if tasksListId exists
       },
     });
   } catch (error) {
@@ -94,12 +109,22 @@ export const updateTask = async (
 
 export const deleteTask = async (id: string) => {
   try {
-    return await prisma.tasks.delete({
+    const task = await prisma.tasks.findFirst({
       where: { id },
     });
+
+    if (!task) {
+      throw new NotFoundError("Task not found");
+    }
+
+    await prisma.tasks.delete({
+      where: { id },
+    });
+
+    return task;
   } catch (error) {
     console.error(error);
-    throw new Error("Error deleting task with id " + id);
+    throw error;
   }
 };
 

@@ -1,4 +1,5 @@
 import prisma from "../../prisma/client";
+import { NotFoundError } from "../utils/NotFoundErrorClass";
 
 export const getUserById = async (id: string) => {
   try {
@@ -15,7 +16,7 @@ export const getUserById = async (id: string) => {
     });
 
     if (!user) {
-      throw new Error("Failed to fetch user");
+      throw new NotFoundError("User not found");
     }
 
     return user;
