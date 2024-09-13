@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { createUser, getAllUsers, getUserById } from "../service/user.service";
+import { NotFoundError } from "../utils/NotFoundErrorClass";
 
 const getUserByIdEP = async (req: Request, res: Response) => {
   try {
@@ -7,15 +8,14 @@ const getUserByIdEP = async (req: Request, res: Response) => {
 
     const user = await getUserById(id);
 
-    if (!user) {
-      console.log("User not found");
-      return res.status(404).json({ error: "User not found" });
+    res.status(200).json(user);
+  } catch (e) {
+    if (e instanceof NotFoundError || (e as Error).name === "NotFoundError") {
+      return res.status(404).json({ error: (e as Error).message });
     }
 
-    res.status(200).json(user);
-  } catch (e: any) {
-    console.error("Error in getUserById endpoint", e.message);
-    res.status(500).json({ error: e.message || "Internal server error" });
+    console.error("Error in getUserById endpoint", (e as Error).message);
+    res.status(500).json({ error: (e as Error).message || "Internal server error" });
   }
 };
 

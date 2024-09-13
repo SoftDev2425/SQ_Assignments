@@ -1,5 +1,6 @@
 import { createUser, getAllUsers, getUserById } from "../../service/user.service";
 import prisma from "../../../prisma/client";
+import { NotFoundError } from "../../utils/NotFoundErrorClass";
 
 describe("Get user by id", () => {
   beforeEach(() => {
@@ -41,7 +42,7 @@ describe("Get user by id", () => {
       where: { id: "1" },
       select: { id: true, name: true, createdAt: true, updatedAt: true },
     });
-    expect(error).toEqual(new Error("Failed to fetch user"));
+    expect(error).toEqual(new NotFoundError("User not found"));
   });
 });
 

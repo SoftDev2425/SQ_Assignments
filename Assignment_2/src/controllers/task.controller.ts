@@ -7,6 +7,7 @@ import {
   updateTask,
   updateTaskStatus,
 } from "../service/task.service";
+import { NotFoundError } from "../utils/NotFoundErrorClass";
 
 const handleCreateTask = async (req: Request, res: Response) => {
   const { title, description, deadline, completed, usersId, tasksListsId } = req.body;
@@ -28,18 +29,18 @@ const handleCreateTask = async (req: Request, res: Response) => {
 };
 
 const handleGetTaskById = async (req: Request, res: Response) => {
-  const { id } = req.params;
-
   try {
+    const { id } = req.params;
+
     const task = await getTaskById(id);
 
-    if (!task) {
-      return res.status(404).json({ message: "Task not found" });
+    return res.status(200).json(task);
+  } catch (e) {
+    if (e instanceof NotFoundError || (e as Error).name === "NotFoundError") {
+      return res.status(404).json({ error: (e as Error).message });
     }
 
-    return res.status(200).json(task);
-  } catch (e: any) {
-    return res.status(500).json({ error: e.message || "Internal server error" });
+    return res.status(500).json({ error: (e as Error).message || "Internal server error" });
   }
 };
 
@@ -73,18 +74,20 @@ const handleUpdateTask = async (req: Request, res: Response) => {
 };
 
 const handleDeleteTask = async (req: Request, res: Response) => {
-  const { id } = req.params;
-
   try {
-    const deletedTask = await deleteTask(id);
+    const { id } = req.params;
 
-    if (!deletedTask) {
-      return res.status(404).json({ message: "Task not found" });
+    
+
+    await deleteTask(id);
+
+    return res.status(204).json({ message: "Task deleted" });
+  } catch (e) {
+    if (e instanceof NotFoundError || (e as Error).name === "NotFoundError") {
+      return res.status(404).json({ error: (e as Error).message });
     }
 
-    return res.status(200).json({ message: "Task deleted" });
-  } catch (e: any) {
-    return res.status(500).json({ error: e.message || "Internal server error" });
+    return res.status(500).json({ error: (e as Error).message || "Internal server error" });
   }
 };
 

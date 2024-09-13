@@ -83,4 +83,13 @@ describe("User", () => {
     );
     expect(response.body).toHaveLength(users.length);
   });
+
+  test("should throw error when getting a user by id that does not exist", async () => {
+    // Act
+    const response = await supertest(app).get(`/api/users/999`);
+
+    // Assert
+    expect(response.status).toBe(404);
+    expect(response.body).toEqual({ error: "User not found" });
+  });
 });

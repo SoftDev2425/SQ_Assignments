@@ -10,7 +10,7 @@ config:
       rampTo: 50
       name: Ramp up load
     - duration: 30
-      arrivalRate: 50
+      arrivalRate: 100
       # rampTo: 30
       name: Sustained peak load
   plugins:
