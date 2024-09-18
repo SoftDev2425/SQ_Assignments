@@ -1,5 +1,8 @@
-Express Server
-TypeScript
-NodeJS
-Jest + Supertest
-Artillery for Load Testing
+# Assignment 3
+
+- NodeJS
+- TypeScript
+- Express Server
+- Testing with Jest + Supertest, Artillery for Load Testing
+- Mocking via Jest
+- Static Code Analysis with ESLint
