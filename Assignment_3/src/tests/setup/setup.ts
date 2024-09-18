@@ -1,11 +1,12 @@
-import prisma from '../../../prisma/client'
-import createServer from '../../utils/server'
+import prisma from '../../../prisma/client';
+import createServer from '../../utils/server';
 
-export let app: any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export let app: any;
 
 global.beforeAll(async () => {
-  app = await createServer()
-})
+  app = await createServer();
+});
 
 global.beforeEach(async () => {
   // clear database from all tables
@@ -13,7 +14,7 @@ global.beforeEach(async () => {
     prisma.tasks.deleteMany(),
     prisma.users.deleteMany(),
     prisma.tasksLists.deleteMany(),
-  ])
-})
+  ]);
+});
 
-global.afterAll(async () => {})
+global.afterAll(async () => {});

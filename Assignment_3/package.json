@@ -9,6 +9,7 @@
     "dev": "nodemon src/app.ts",
     "test": "npm run test:migrate && jest --runInBand --verbose --coverage",
     "test:migrate": "npx dotenv -e .env.test -- npx prisma migrate reset -f",
+    "lint": "eslint src",
     "build": "eslint src && tsc",
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\""
   },

@@ -5,7 +5,7 @@ import { app } from '../setup/setup'
 describe('User', () => {
   test('should get a user by id', async () => {
     // Arrange
-    let user = {
+    const user = {
       id: '1',
       name: 'John Doe',
       password: 'pass',
@@ -14,7 +14,8 @@ describe('User', () => {
     }
     await prisma.users.create({ data: user })
 
-    let { password, ...userWithoutPass } = user
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password, ...userWithoutPass } = user
 
     // Act
     const response = await supertest(app).get(`/api/users/${user.id}`)
@@ -26,7 +27,7 @@ describe('User', () => {
 
   test('should create a user', async () => {
     // Arrange
-    let user = {
+    const user = {
       name: 'John Doe',
       password: 'pass',
     }
@@ -46,7 +47,7 @@ describe('User', () => {
 
   test('should get all users', async () => {
     // Arrange
-    let users = [
+    const users = [
       {
         id: '1',
         name: 'John Doe',
@@ -71,7 +72,8 @@ describe('User', () => {
     expect(response.body).toEqual(
       expect.arrayContaining(
         users.map(user => {
-          let { password, ...userWithoutPass } = user
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          const { password, ...userWithoutPass } = user
           return {
             ...userWithoutPass,
             id: expect.any(String),

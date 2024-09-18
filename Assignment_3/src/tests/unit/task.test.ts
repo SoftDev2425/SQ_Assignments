@@ -7,7 +7,6 @@ import {
   updateTask,
   updateTaskStatus,
 } from '../../service/task.service'
-import { createTestUser } from '../../utils/helperMethods'
 import { NotFoundError } from '../../utils/NotFoundErrorClass'
 
 describe('Task service', () => {
