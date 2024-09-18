@@ -1,14 +1,14 @@
-import express from "express";
-import routes from "../routes";
+import express from 'express'
+import routes from '../routes'
 
 function createServer() {
-  const app = express();
+  const app = express()
 
-  app.use(express.json());
+  app.use(express.json())
 
-  routes(app);
+  routes(app)
 
-  return app;
+  return app
 }
 
-export default createServer;
+export default createServer

@@ -1,15 +1,19 @@
-import prisma from "../../../prisma/client";
-import createServer from "../../utils/server";
+import prisma from '../../../prisma/client'
+import createServer from '../../utils/server'
 
-export let app: any;
+export let app: any
 
 global.beforeAll(async () => {
-  app = await createServer();
-});
+  app = await createServer()
+})
 
 global.beforeEach(async () => {
   // clear database from all tables
-  await prisma.$transaction([prisma.tasks.deleteMany(), prisma.users.deleteMany(), prisma.tasksLists.deleteMany()]);
-});
+  await prisma.$transaction([
+    prisma.tasks.deleteMany(),
+    prisma.users.deleteMany(),
+    prisma.tasksLists.deleteMany(),
+  ])
+})
 
-global.afterAll(async () => {});
+global.afterAll(async () => {})

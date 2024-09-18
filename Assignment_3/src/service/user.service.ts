@@ -1,5 +1,5 @@
-import prisma from "../../prisma/client";
-import { NotFoundError } from "../utils/NotFoundErrorClass";
+import prisma from '../../prisma/client'
+import { NotFoundError } from '../utils/NotFoundErrorClass'
 
 export const getUserById = async (id: string) => {
   try {
@@ -13,18 +13,18 @@ export const getUserById = async (id: string) => {
         createdAt: true,
         updatedAt: true,
       },
-    });
+    })
 
     if (!user) {
-      throw new NotFoundError("User not found");
+      throw new NotFoundError('User not found')
     }
 
-    return user;
+    return user
   } catch (error) {
-    console.error("Error fetching user by ID", error);
-    throw error;
+    console.error('Error fetching user by ID', error)
+    throw error
   }
-};
+}
 
 export const getAllUsers = async () => {
   try {
@@ -35,12 +35,12 @@ export const getAllUsers = async () => {
         createdAt: true,
         updatedAt: true,
       },
-    });
+    })
   } catch (error) {
-    console.error("Error fetching all users", error);
-    throw new Error("Failed to fetch users");
+    console.error('Error fetching all users', error)
+    throw new Error('Failed to fetch users')
   }
-};
+}
 
 export const createUser = async (name: string, password: string) => {
   try {
@@ -55,9 +55,9 @@ export const createUser = async (name: string, password: string) => {
         createdAt: true,
         updatedAt: true,
       },
-    });
+    })
   } catch (error) {
-    console.error("Error creating user", error);
-    throw new Error("Failed to create user");
+    console.error('Error creating user', error)
+    throw new Error('Failed to create user')
   }
-};
+}

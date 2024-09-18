@@ -1,10 +1,10 @@
-import express from "express";
-import userController from "../controllers/user.controller";
+import express from 'express'
+import userController from '../controllers/user.controller'
 
-const router = express.Router();
+const router = express.Router()
 
-router.get("/:id", userController.getUserByIdEP);
-router.get("/", userController.getAllUsersEP);
-router.post("/", userController.createUserEP);
+router.get('/:id', userController.getUserByIdEP)
+router.get('/', userController.getAllUsersEP)
+router.post('/', userController.createUserEP)
 
-export default router;
+export default router
