@@ -162,8 +162,6 @@ describe('Task', () => {
       .put(`/api/tasks/${testTask.id}/status`)
       .send({ completed: true });
 
-    console.log(response.body);
-
     // Assert
     expect(response.status).toBe(200);
     expect(response.body.completed).toBe(true);

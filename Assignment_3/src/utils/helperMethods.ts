@@ -1,4 +1,4 @@
-import prisma from '../../prisma/client'
+import prisma from '../../prisma/client';
 
 export const createTestUser = async () => {
   try {
@@ -7,12 +7,11 @@ export const createTestUser = async () => {
         name: 'John Doe',
         password: 'pass',
       },
-    })
+    });
   } catch (error) {
-    console.error(error)
-    throw new Error('Error creating test user')
+    throw new Error(`Error creating test user: ${error}`);
   }
-}
+};
 
 export const createTestTask = async (userId: string) => {
   try {
@@ -28,9 +27,8 @@ export const createTestTask = async (userId: string) => {
           },
         },
       },
-    })
+    });
   } catch (error) {
-    console.error(error)
-    throw new Error('Error creating test task')
+    throw new Error(`Error creating test task: ${error}`);
   }
-}
+};

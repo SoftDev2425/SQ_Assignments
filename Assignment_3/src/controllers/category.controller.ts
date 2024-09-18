@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
 
-const createCategory = async (req: Request, res: Response) => {};
+const createCategory = async (req: Request, res: Response) => {
+  res.status(201).send('Category created');
+};
 
 const getCategories = async (req: Request, res: Response) => {
   res.status(200).send('Categories');

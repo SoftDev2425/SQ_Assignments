@@ -49,8 +49,7 @@ export const createTask = async (data: {
 
     return newTask;
   } catch (error) {
-    console.error(error);
-    throw error;
+    throw new Error(`Error creating task: ${error}`);
   }
 };
 
@@ -66,8 +65,7 @@ export const getTaskById = async (id: string) => {
 
     return task;
   } catch (error) {
-    console.error(error);
-    throw error;
+    throw new Error(`Error getting task with id ${id}: ${error}`);
   }
 };
 
@@ -75,8 +73,7 @@ export const getAllTasks = async () => {
   try {
     return await prisma.tasks.findMany();
   } catch (error) {
-    console.error(error);
-    throw new Error('Error getting all tasks');
+    throw new Error(`Error getting all tasks ${error}`);
   }
 };
 
@@ -108,8 +105,7 @@ export const updateTask = async (
       },
     });
   } catch (error) {
-    console.error(error);
-    throw new Error('Error updating task with id ' + id);
+    throw new Error(`Error updating task with id ${id}: ${error}`);
   }
 };
 
@@ -129,8 +125,7 @@ export const deleteTask = async (id: string) => {
 
     return task;
   } catch (error) {
-    console.error(error);
-    throw error;
+    throw new Error(`Error deleting task with id ${id}: ${error}`);
   }
 };
 
@@ -149,7 +144,6 @@ export const updateTaskStatus = async (id: string, completed: boolean) => {
 
     return task;
   } catch (error) {
-    console.error(error);
-    throw error;
+    throw new Error(`Error updating task status with id ${id}: ${error}`);
   }
 };

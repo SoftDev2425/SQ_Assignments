@@ -14,7 +14,6 @@ const getUserByIdEP = async (req: Request, res: Response) => {
       return res.status(404).json({ error: (e as Error).message });
     }
 
-    console.error('Error in getUserById endpoint', (e as Error).message);
     res
       .status(500)
       .json({ error: (e as Error).message || 'Internal server error' });

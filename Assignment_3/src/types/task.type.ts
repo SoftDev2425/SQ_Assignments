@@ -8,5 +8,3 @@ export type ITask = {
   createdAt: Date;
   updatedAt: Date;
 };
-
-
