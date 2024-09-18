@@ -1,24 +1,22 @@
-import { Request, Response } from 'express'
+import { Request, Response } from 'express';
 
-const createCategory = async (req: Request, res: Response) => {
-  res.status(201).send('Category created')
-}
+const createCategory = async (req: Request, res: Response) => {};
 
 const getCategories = async (req: Request, res: Response) => {
-  res.status(200).send('Categories')
-}
+  res.status(200).send('Categories');
+};
 
 const getCategoryById = async (req: Request, res: Response) => {
-  res.status(200).send('Category')
-}
+  res.status(200).send('Category');
+};
 
 const updateCategory = async (req: Request, res: Response) => {
-  res.status(200).send('Category updated')
-}
+  res.status(200).send('Category updated');
+};
 
 const deleteCategory = async (req: Request, res: Response) => {
-  res.status(200).send('Category deleted')
-}
+  res.status(200).send('Category deleted');
+};
 
 export default {
   createCategory,
@@ -26,4 +24,4 @@ export default {
   getCategoryById,
   updateCategory,
   deleteCategory,
-}
+};
