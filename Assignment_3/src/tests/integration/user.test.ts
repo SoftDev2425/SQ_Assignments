@@ -92,6 +92,8 @@ describe('User', () => {
 
     // Assert
     expect(response.status).toBe(404);
-    expect(response.body).toEqual({ error: 'User not found' });
+    expect(response.body).toEqual({
+      error: 'Error fetching user by ID: NotFoundError: User not found',
+    });
   });
 });

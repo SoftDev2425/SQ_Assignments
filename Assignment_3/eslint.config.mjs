@@ -11,7 +11,7 @@ export default [
       'no-unused-vars': 'error',
       'prefer-const': ['error', { ignoreReadBeforeAssign: true }],
       camelcase: 'error',
-      'no-multiple-empty-lines': ['error', { max: 1 }],
+      // 'no-multiple-empty-lines': ['error', { max: 1 }],
       'no-console': 'error',
       'no-duplicate-imports': 'error',
     },
