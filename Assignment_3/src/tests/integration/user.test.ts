@@ -1,6 +1,7 @@
 import supertest from 'supertest';
 import prisma from '../../../prisma/client';
 import { app } from '../setup/setup';
+import { generateRandomString } from '../../utils/generateRandomString';
 
 describe('User', () => {
   test('should get a user by id', async () => {
@@ -99,7 +100,7 @@ describe('User', () => {
     // Arrange
     const user = {
       name: 'John Doe',
-      password: 'foo',
+      password: generateRandomString(7),
     };
 
     // Act

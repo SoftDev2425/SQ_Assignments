@@ -1,3 +1,4 @@
+import { generateRandomString } from "../utils/generateRandomString";
 import { validatePassword } from "../utils/validatePassword";
 
 describe('Password boundary test', () => {
@@ -5,7 +6,7 @@ describe('Password boundary test', () => {
 
     test('should approve password at minimum length', () => {
         // Arrange
-        password = '12345678';
+        password = generateRandomString(8);
 
         // Act
         const result = validatePassword(password);
@@ -16,7 +17,7 @@ describe('Password boundary test', () => {
 
     test('should reject password below minimum length', () => {
         // Arrange
-        password = '1234567';
+        password = generateRandomString(7);
 
         // Act
         const result = validatePassword(password);
@@ -27,7 +28,7 @@ describe('Password boundary test', () => {
 
     test('should approve password at maximum length', () => {
         // Arrange
-        password = 'abcdefghijklmnop';
+        password = generateRandomString(16);
 
         // Act
         const result = validatePassword(password);
@@ -38,7 +39,7 @@ describe('Password boundary test', () => {
 
     test('should reject password over maximum length', () => {
         // Arrange
-        password = 'abcdefghijklmnopq'
+        password = generateRandomString(17);
 
         // Act
         const result = validatePassword(password);
