@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { createUser, getAllUsers, getUserById } from '../service/user.service';
 import { NotFoundError } from '../utils/NotFoundErrorClass';
+import { validatePassword } from '../utils/validatePassword';
 
 const getUserByIdEP = async (req: Request, res: Response) => {
   try {
@@ -22,6 +23,10 @@ const createUserEP = async (req: Request, res: Response) => {
 
   if (!name || !password) {
     res.status(400).json({ error: 'Name and password are required' });
+  }
+
+  if (!validatePassword(password)) {
+    res.status(401).json({ error: 'Password must be between 8 and 16 characters' });
   }
 
   try {

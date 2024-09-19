@@ -29,7 +29,7 @@ describe('User', () => {
     // Arrange
     const user = {
       name: 'John Doe',
-      password: 'pass',
+      password: 'password',
     };
 
     // Act
@@ -94,4 +94,18 @@ describe('User', () => {
     expect(response.status).toBe(404);
     expect(response.body).toEqual({ error: 'Error fetching user by ID: 999' });
   });
+
+  test('should reject creating user outside password boundary', async () => {
+    // Arrange
+    const user = {
+      name: 'John Doe',
+      password: 'foo',
+    };
+
+    // Act
+    const response = await supertest(app).post('/api/users').send(user);
+
+    // Assert
+    expect(response.status).toBe(401);
+  })
 });
