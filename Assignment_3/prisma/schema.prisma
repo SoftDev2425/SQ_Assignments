@@ -26,6 +26,7 @@ model Tasks {
   description String?
   deadline    DateTime?
   completed   Boolean     @default(false)
+  status      TaskStatus  @default(NOT_STARTED)
   tasksList   TasksLists? @relation(fields: [tasksListId], references: [id])
   tasksListId String?
   user        Users?      @relation(fields: [userId], references: [id])
@@ -48,4 +49,10 @@ model TasksLists {
 
   @@unique([name])
   @@index([id, name])
+}
+
+enum TaskStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  COMPLETED
 }
