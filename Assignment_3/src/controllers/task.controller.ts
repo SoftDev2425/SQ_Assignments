@@ -115,8 +115,8 @@ const handleUpdateTaskStatus = async (req: Request, res: Response) => {
 
     return res.status(200).json(task);
   } catch (e: unknown) {
-    if (e instanceof Error) {
-      return res.status(500).json({ error: e.message });
+    if (e instanceof NotFoundError || (e as Error).name === 'NotFoundError') {
+      return res.status(404).json({ error: (e as Error).message });
     }
 
     return res.status(500).json({ error: 'Internal server error' });
