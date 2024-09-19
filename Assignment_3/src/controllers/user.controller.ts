@@ -13,10 +13,7 @@ const getUserByIdEP = async (req: Request, res: Response) => {
     if (e instanceof NotFoundError || (e as Error).name === 'NotFoundError') {
       return res.status(404).json({ error: (e as Error).message });
     }
-
-    res
-      .status(500)
-      .json({ error: (e as Error).message || 'Internal server error' });
+    return res.status(500).json({ error: 'Internal server error' });
   }
 };
 
