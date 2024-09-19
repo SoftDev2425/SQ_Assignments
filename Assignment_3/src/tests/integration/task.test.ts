@@ -169,3 +169,28 @@ describe('Task', () => {
     expect(response.body.completed).toBe(true);
   });
 });
+
+// boundary tests
+describe('Boundary tests for Task', () => {
+  // test('should throw an error when task description length is greater than 1000 characters', async () => {
+  //   // Arrange
+  //   const testUser = await createTestUser();
+  //   const task = {
+  //     title: 'Test Task',
+  //     description: 'a'.repeat(1001),
+  //     deadline: new Date(),
+  //     completed: false,
+  //     usersId: testUser.id,
+  //   };
+  //   // Act
+  //   const response = await supertest(app).post('/api/tasks').send(task);
+  //   // Assert
+  //   expect(response.status).toBe(400);
+  //   expect(response.body).toEqual({
+  //     error: 'Description length must be less than 1000 characters',
+  //   });
+  // });
+});
+
+// equilvalence partitioning
+describe('Equivalence Partitioning tests for Task', () => {});

@@ -13,6 +13,12 @@ const handleCreateTask = async (req: Request, res: Response) => {
   const { title, description, deadline, completed, usersId, tasksListsId } =
     req.body;
 
+  if (description.length > 1000) {
+    return res
+      .status(400)
+      .json({ error: 'Description length must be less than 1000 characters' });
+  }
+
   try {
     const task = await createTask({
       title,

@@ -434,13 +434,41 @@ describe('Task service', () => {
   });
 });
 
-// boundary tests
-describe('boundary tests on task service', () => {
-  // task description length
-  test('should throw an error when task description length is greater than 1000 characters', async () => {});
+// // boundary tests
+// describe('boundary tests on task service', () => {
+//   // task description length
+//   test('should throw an error when task description length is greater than 1000 characters', async () => {
+//     // Arrange
+//     const mockUser = {
+//       id: '1',
+//       name: 'Test user',
+//     };
 
-  
-});
+//     const mockTaskData = {
+//       title: 'Test task',
+//       description: 'a'.repeat(1001),
+//       deadline: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
+//       completed: false,
+//       usersId: '1',
+//     };
 
-// equivalent partitioning
-describe('equivalent partitioning tests on task service', () => {});
+//     prisma.users.findUnique = jest.fn().mockResolvedValue(mockUser);
+//     prisma.tasks.create = jest.fn().mockResolvedValue(mockTaskData);
+
+//     // Act
+//     let error;
+//     try {
+//       await createTask(mockTaskData);
+//     } catch (e) {
+//       error = e;
+//     }
+
+//     // Assert
+//     expect(error).toEqual(
+//       new Error('Description length must be less than 1000 characters'),
+//     );
+//   });
+// });
+
+// // equivalent partitioning
+// describe('equivalent partitioning tests on task service', () => {});
