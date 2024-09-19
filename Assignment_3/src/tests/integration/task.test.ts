@@ -97,6 +97,8 @@ describe('Task', () => {
     // Act
     const response = await supertest(app).get('/api/tasks/1');
 
+    console.log(response.body);
+
     // Assert
     expect(response.status).toBe(404);
     expect(response.body).toEqual({ error: `Error getting task with id 1` });

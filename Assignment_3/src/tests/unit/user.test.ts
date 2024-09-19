@@ -51,7 +51,7 @@ describe('Get user by id', () => {
       where: { id: '1' },
       select: { id: true, name: true, createdAt: true, updatedAt: true },
     })
-    expect(error).toEqual(new NotFoundError('User not found'))
+    expect(error).toEqual(new NotFoundError('Error fetching user by ID: 1'))
   })
 })
 
