@@ -21,6 +21,10 @@ export const createTask = async (data: {
     throw new Error('Please provide a title for the task');
   }
 
+  if (data.title.length > 24) {
+    throw new Error('Please provide a titel with less than 24 characters');
+  }
+
   if (data.deadline < new Date()) {
     throw new Error('Please provide a future deadline for the task');
   }
