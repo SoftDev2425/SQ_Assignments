@@ -108,6 +108,7 @@ describe('User', () => {
 
     // Assert
     expect(response.status).toBe(401);
+    expect(response.body).toEqual({error: 'Password must be between 8 and 16 characters'})
   })
 
   test('should create user with password at minimum boundary', async () => {
@@ -122,6 +123,12 @@ describe('User', () => {
 
     // Assert
     expect(response.status).toBe(201);
+    expect(response.body).toEqual({
+      id: expect.any(String),
+      name: user.name,
+      createdAt: expect.any(String),
+      updatedAt: expect.any(String),
+    })
   })
 
   test('should reject creating user if password is above maximum boundary', async () => {
@@ -136,6 +143,7 @@ describe('User', () => {
 
     // Assert
     expect(response.status).toBe(401);
+    expect(response.body).toEqual({error: 'Password must be between 8 and 16 characters'})
   })
 
   test('should create user with password at maximum boundary', async () => {
@@ -150,5 +158,11 @@ describe('User', () => {
 
     // Assert
     expect(response.status).toBe(201);
+    expect(response.body).toEqual({
+      id: expect.any(String),
+      name: user.name,
+      createdAt: expect.any(String),
+      updatedAt: expect.any(String),
+    })
   })
 });
