@@ -16,4 +16,5 @@ module.exports = {
     'prisma/',
     'redis/',
   ],
-}
+  testPathIgnorePatterns: ['dist/', 'node_modules/'],
+};

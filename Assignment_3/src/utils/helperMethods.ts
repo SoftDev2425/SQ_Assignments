@@ -20,7 +20,7 @@ export const createTestTask = async (userId: string) => {
         title: 'Test task',
         description: 'Test description',
         deadline: new Date('2021-09-01T00:00:00.000Z'),
-        completed: false,
+        status: 'NOT_STARTED',
         user: {
           connect: {
             id: userId,

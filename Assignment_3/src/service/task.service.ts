@@ -1,11 +1,11 @@
 import prisma from '../../prisma/client';
+import { TaskStatusType } from '../types/task_status.type';
 import { NotFoundError } from '../utils/NotFoundErrorClass';
 
 export const createTask = async (data: {
   title: string;
   description: string;
   deadline: Date;
-  completed: boolean;
   usersId: string;
   tasksListsId?: string;
 }) => {
@@ -30,7 +30,7 @@ export const createTask = async (data: {
       title: data.title,
       description: data.description,
       deadline: data.deadline,
-      completed: data.completed,
+      status: 'NOT_STARTED',
       user: {
         connect: {
           id: data.usersId,
@@ -75,7 +75,7 @@ export const updateTask = async (
     title: string;
     description: string;
     deadline: Date;
-    completed: boolean;
+    status: TaskStatusType;
     tasksListId?: string;
   },
 ) => {
@@ -85,7 +85,7 @@ export const updateTask = async (
       title: data.title,
       description: data.description,
       deadline: data.deadline,
-      completed: data.completed,
+      status: data.status,
       ...(data.tasksListId && {
         tasksLists: {
           connect: {
@@ -113,11 +113,14 @@ export const deleteTask = async (id: string) => {
   return task;
 };
 
-export const updateTaskStatus = async (id: string, completed: boolean) => {
+export const updateTaskStatus = async (
+  id: string,
+  status: 'NOT_STARTED' | 'IN_PROGRESS' | 'COMPLETED' | 'ARCHIVED',
+) => {
   const task = await prisma.tasks.update({
     where: { id },
     data: {
-      completed,
+      status,
     },
   });
 
