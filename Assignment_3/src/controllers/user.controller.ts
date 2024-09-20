@@ -21,28 +21,33 @@ const getUserByIdEP = async (req: Request, res: Response) => {
 const createUserEP = async (req: Request, res: Response) => {
   const { name, password } = req.body;
 
+  // Validate name and password are present
   if (!name || !password) {
-    res.status(400).json({ error: 'Name and password are required' });
+    return res.status(400).json({ error: 'Name and password are required' });
   }
 
+  // Validate password
   if (!validatePassword(password)) {
-    res.status(401).json({ error: 'Password must be between 8 and 16 characters' });
+    return res.status(401).json({ error: 'Password must be between 8 and 16 characters' });
   }
 
   try {
+    // Attempt to create the user
     const user = await createUser(name, password);
 
     if (!user) {
       return res.status(400).json({ error: 'Failed to create user' });
     }
 
-    res.status(201).json(user);
+    // Successfully created user
+    return res.status(201).json(user);
   } catch (e: unknown) {
+    // Handle error cases
     if (e instanceof Error) {
       return res.status(500).json({ error: (e as Error).message });
     }
 
-    res.status(500).json({ error: 'Internal server error' });
+    return res.status(500).json({ error: 'Internal server error' });
   }
 };
 

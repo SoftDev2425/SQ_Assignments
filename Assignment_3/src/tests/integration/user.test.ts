@@ -96,7 +96,7 @@ describe('User', () => {
     expect(response.body).toEqual({ error: 'Error fetching user by ID: 999' });
   });
 
-  test('should reject creating user outside password boundary', async () => {
+  test('should reject creating user if password below minimum boundary', async () => {
     // Arrange
     const user = {
       name: 'John Doe',
@@ -108,5 +108,47 @@ describe('User', () => {
 
     // Assert
     expect(response.status).toBe(401);
+  })
+
+  test('should create user with password at minimum boundary', async () => {
+    // Arrange
+    const user = {
+      name: 'John Doe',
+      password: generateRandomString(8),
+    };
+
+    // Act
+    const response = await supertest(app).post('/api/users').send(user);
+
+    // Assert
+    expect(response.status).toBe(201);
+  })
+
+  test('should reject creating user if password is above maximum boundary', async () => {
+    // Arrange
+    const user = {
+      name: 'John Doe',
+      password: generateRandomString(17),
+    };
+
+    // Act
+    const response = await supertest(app).post('/api/users').send(user);
+
+    // Assert
+    expect(response.status).toBe(401);
+  })
+
+  test('should create user with password at maximum boundary', async () => {
+    // Arrange
+    const user = {
+      name: 'John Doe',
+      password: generateRandomString(16),
+    };
+
+    // Act
+    const response = await supertest(app).post('/api/users').send(user);
+
+    // Assert
+    expect(response.status).toBe(201);
   })
 });
