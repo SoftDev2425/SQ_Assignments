@@ -10,7 +10,7 @@ import {
 import { NotFoundError } from '../utils/NotFoundErrorClass';
 
 const handleCreateTask = async (req: Request, res: Response) => {
-  const { title, description, deadline, completed, usersId, tasksListsId } =
+  const { title, description, deadline, usersId, tasksListsId } =
     req.body;
 
   if (description.length > 1000) {
@@ -24,7 +24,6 @@ const handleCreateTask = async (req: Request, res: Response) => {
       title,
       description,
       deadline,
-      completed,
       usersId,
       tasksListsId,
     });
@@ -73,14 +72,14 @@ const handleGetAllTasks = async (req: Request, res: Response) => {
 
 const handleUpdateTask = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const { title, description, deadline, completed, tasksListId } = req.body;
+  const { title, description, deadline, status, tasksListId } = req.body;
 
   try {
     const task = await updateTask(id, {
       title,
       description,
       deadline,
-      completed,
+      status,
       tasksListId,
     });
 
@@ -114,10 +113,10 @@ const handleDeleteTask = async (req: Request, res: Response) => {
 
 const handleUpdateTaskStatus = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const { completed } = req.body;
+  const { status } = req.body;
 
   try {
-    const task = await updateTaskStatus(id, completed as boolean);
+    const task = await updateTaskStatus(id, status);
 
     return res.status(200).json(task);
   } catch (e: unknown) {

@@ -1,3 +1,4 @@
+import { TaskStatus } from '@prisma/client';
 import prisma from '../../../prisma/client';
 import {
   createTask,
@@ -99,7 +100,7 @@ describe('Task service', () => {
       title: 'Test task',
       description: 'Test description',
       deadline: new Date('2021-09-01T00:00:00.000Z'),
-      completed: false,
+      status: TaskStatus.COMPLETED,
       tasksListId: '1',
     };
 
@@ -115,7 +116,7 @@ describe('Task service', () => {
         title: 'Test task',
         description: 'Test description',
         deadline: new Date('2021-09-01T00:00:00.000Z'),
-        completed: false,
+        status: TaskStatus.COMPLETED,
         tasksLists: {
           connect: {
             id: '1',
@@ -132,7 +133,7 @@ describe('Task service', () => {
       title: 'Test task',
       description: 'Test description',
       deadline: new Date('2021-09-01T00:00:00.000Z'),
-      completed: false,
+      status: TaskStatus.COMPLETED,
       tasksListId: '1',
     };
 
@@ -156,7 +157,7 @@ describe('Task service', () => {
         title: 'Test task',
         description: 'Test description',
         deadline: new Date('2021-09-01T00:00:00.000Z'),
-        completed: false,
+        status: TaskStatus.COMPLETED,
         tasksLists: {
           connect: {
             id: '1',
@@ -174,7 +175,6 @@ describe('Task service', () => {
       title: 'Test task',
       description: 'Test description',
       deadline: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
-      completed: false,
       usersId: '1',
       tasksListsId: '1',
     };
@@ -198,7 +198,7 @@ describe('Task service', () => {
         title: 'Test task',
         description: 'Test description',
         deadline: mockTaskData.deadline,
-        completed: false,
+        status: TaskStatus.NOT_STARTED,
         user: {
           connect: {
             id: '1',
@@ -222,7 +222,7 @@ describe('Task service', () => {
       title: 'Test task',
       description: 'Test description',
       deadline: new Date('2021-09-01T00:00:00.000Z'),
-      completed: true,
+      status: TaskStatus.COMPLETED,
       usersId: '1',
       tasksListsId: '1',
     };
@@ -230,27 +230,27 @@ describe('Task service', () => {
     prisma.tasks.update = jest.fn().mockResolvedValue(mockTaskData);
 
     // Act
-    const result = await updateTaskStatus('1', true);
+    const result = await updateTaskStatus('1', TaskStatus.COMPLETED);
 
     // Assert
     expect(prisma.tasks.update).toHaveBeenCalledTimes(1);
     expect(prisma.tasks.update).toHaveBeenCalledWith({
       where: { id: '1' },
       data: {
-        completed: true,
+        status: TaskStatus.COMPLETED,
       },
     });
     expect(result).toEqual(mockTaskData);
   });
 
-  test('should update a task status to not completed', async () => {
+  test('should update a task status to not started', async () => {
     // Arrange
     const mockTaskData = {
       id: '1',
       title: 'Test task',
       description: 'Test description',
       deadline: new Date('2021-09-01T00:00:00.000Z'),
-      completed: false,
+      status: TaskStatus.NOT_STARTED,
       usersId: '1',
       tasksListsId: '1',
     };
@@ -258,14 +258,14 @@ describe('Task service', () => {
     prisma.tasks.update = jest.fn().mockResolvedValue(mockTaskData);
 
     // Act
-    const result = await updateTaskStatus('1', false);
+    const result = await updateTaskStatus('1', TaskStatus.NOT_STARTED);
 
     // Assert
     expect(prisma.tasks.update).toHaveBeenCalledTimes(1);
     expect(prisma.tasks.update).toHaveBeenCalledWith({
       where: { id: '1' },
       data: {
-        completed: false,
+        status: TaskStatus.NOT_STARTED,
       },
     });
     expect(result).toEqual(mockTaskData);
@@ -280,7 +280,7 @@ describe('Task service', () => {
     // Act
     let error;
     try {
-      await updateTaskStatus('999', true);
+      await updateTaskStatus('999', TaskStatus.COMPLETED);
     } catch (e) {
       error = e;
     }
@@ -290,7 +290,7 @@ describe('Task service', () => {
     expect(prisma.tasks.update).toHaveBeenCalledWith({
       where: { id: '999' },
       data: {
-        completed: true,
+        status: TaskStatus.COMPLETED,
       },
     });
     expect(error).toEqual(new Error('Task not found'));
@@ -302,7 +302,6 @@ describe('Task service', () => {
       title: 'Test task',
       description: 'Test description',
       deadline: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
-      completed: false,
       usersId: '1',
     };
 
@@ -317,7 +316,7 @@ describe('Task service', () => {
         title: 'Test task',
         description: 'Test description',
         deadline: mockTaskData.deadline,
-        completed: false,
+        status: TaskStatus.NOT_STARTED,
         user: {
           connect: {
             id: '1',
