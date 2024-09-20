@@ -8,10 +8,10 @@ import {
   updateTaskStatus,
 } from '../service/task.service';
 import { NotFoundError } from '../utils/NotFoundErrorClass';
+import { taskStatuses } from '../types/task_status.type';
 
 const handleCreateTask = async (req: Request, res: Response) => {
-  const { title, description, deadline, usersId, tasksListsId } =
-    req.body;
+  const { title, description, deadline, usersId, tasksListsId } = req.body;
 
   if (description.length > 1000) {
     return res
@@ -74,6 +74,14 @@ const handleUpdateTask = async (req: Request, res: Response) => {
   const { id } = req.params;
   const { title, description, deadline, status, tasksListId } = req.body;
 
+  // check if status is valid
+  if (status && !taskStatuses.includes(status)) {
+    return res.status(400).json({
+      error:
+        'Invalid status value. Valid values are NOT_STARTED, IN_PROGRESS, COMPLETED, ARCHIVED',
+    });
+  }
+
   try {
     const task = await updateTask(id, {
       title,
@@ -114,6 +122,13 @@ const handleDeleteTask = async (req: Request, res: Response) => {
 const handleUpdateTaskStatus = async (req: Request, res: Response) => {
   const { id } = req.params;
   const { status } = req.body;
+
+  if (status && !taskStatuses.includes(status)) {
+    return res.status(400).json({
+      error:
+        'Invalid status value. Valid values are NOT_STARTED, IN_PROGRESS, COMPLETED, ARCHIVED',
+    });
+  }
 
   try {
     const task = await updateTaskStatus(id, status);

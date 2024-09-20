@@ -175,7 +175,6 @@ describe('Boundary tests for Task', () => {
       title: 'Test Task',
       description: 'a'.repeat(1001),
       deadline: new Date(),
-      completed: false,
       usersId: testUser.id,
     };
     // Act
@@ -184,6 +183,60 @@ describe('Boundary tests for Task', () => {
     expect(response.status).toBe(400);
     expect(response.body).toEqual({
       error: 'Description length must be less than 1000 characters',
+    });
+  });
+
+  test("should successfully create a task when task's description length is 1000 characters", async () => {
+    // Arrange
+    const testUser = await createTestUser();
+    const task = {
+      title: 'Test Task',
+      description: 'a'.repeat(1000),
+      deadline: new Date(),
+      usersId: testUser.id,
+    };
+    // Act
+    const response = await supertest(app).post('/api/tasks').send(task);
+
+    const normalizedResponseBody = {
+      title: response.body.title,
+      description: response.body.description,
+      deadline: new Date(response.body.deadline),
+      usersId: response.body.userId,
+    };
+
+    // Assert
+    expect(response.status).toBe(201);
+    expect(normalizedResponseBody).toEqual({
+      ...task,
+      usersId: response.body.userId,
+    });
+  });
+
+  test("should successfully create a task when task's description length is 0 characters", async () => {
+    // Arrange
+    const testUser = await createTestUser();
+    const task = {
+      title: 'Test Task',
+      description: '',
+      deadline: new Date(),
+      usersId: testUser.id,
+    };
+    // Act
+    const response = await supertest(app).post('/api/tasks').send(task);
+
+    const normalizedResponseBody = {
+      title: response.body.title,
+      description: response.body.description,
+      deadline: new Date(response.body.deadline),
+      usersId: response.body.userId,
+    };
+
+    // Assert
+    expect(response.status).toBe(201);
+    expect(normalizedResponseBody).toEqual({
+      ...task,
+      usersId: response.body.userId,
     });
   });
 });
