@@ -13,6 +13,12 @@ import { taskStatuses } from '../types/task_status.type';
 const handleCreateTask = async (req: Request, res: Response) => {
   const { title, description, deadline, usersId, tasksListsId } = req.body;
 
+  if (description == undefined) {
+    return res
+      .status(400)
+      .json({ error: 'Please provide a description for the task' });
+  }
+
   if (description.length > 1000) {
     return res
       .status(400)
@@ -81,7 +87,6 @@ const handleUpdateTask = async (req: Request, res: Response) => {
         'Invalid status value. Valid values are NOT_STARTED, IN_PROGRESS, COMPLETED, ARCHIVED',
     });
   }
-
   try {
     const task = await updateTask(id, {
       title,

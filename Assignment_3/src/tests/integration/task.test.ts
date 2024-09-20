@@ -239,6 +239,23 @@ describe('Boundary tests for Task', () => {
       usersId: response.body.userId,
     });
   });
+
+  test('should throw an error if description is missing when creating a task', async () => {
+    // Arrange
+    const testUser = await createTestUser();
+    const task = {
+      title: 'Test Task',
+      deadline: new Date(),
+      usersId: testUser.id,
+    };
+    // Act
+    const response = await supertest(app).post('/api/tasks').send(task);
+    // Assert
+    expect(response.status).toBe(400);
+    expect(response.body).toEqual({
+      error: 'Please provide a description for the task',
+    });
+  });
 });
 
 // equilvalence partitioning
