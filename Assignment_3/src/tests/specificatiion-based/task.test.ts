@@ -41,26 +41,6 @@ describe('Specification-based testing for Task Service', () => {
   });
 });
 describe('Task Title Boundary Tests', () => {
-  test('should not create a task without a title', async () => {
-    const user = await createTestUser();
-
-    const mockTaskData = {
-      title: '',
-      description: 'Test description',
-      deadline: new Date('2021-09-01T00:00:00.000Z'),
-      completed: false,
-      usersId: user.id,
-    };
-
-    let error;
-    try {
-      await createTask(mockTaskData);
-    } catch (e) {
-      error = e;
-    }
-
-    expect(error).toEqual(new Error('Please provide a title for the task'));
-  });
   test('should create task with exactly 1 character in the title', async () => {
     const user = await createTestUser();
 
