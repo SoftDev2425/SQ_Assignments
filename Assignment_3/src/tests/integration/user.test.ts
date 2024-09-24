@@ -1,6 +1,7 @@
 import supertest from 'supertest';
 import prisma from '../../../prisma/client';
 import { app } from '../setup/setup';
+import { generateRandomString } from '../../utils/generateRandomString';
 
 describe('User', () => {
   test('should get a user by id', async () => {
@@ -29,7 +30,7 @@ describe('User', () => {
     // Arrange
     const user = {
       name: 'John Doe',
-      password: 'pass',
+      password: 'password',
     };
 
     // Act
@@ -94,4 +95,74 @@ describe('User', () => {
     expect(response.status).toBe(404);
     expect(response.body).toEqual({ error: 'Error fetching user by ID: 999' });
   });
+
+  test('should reject creating user if password below minimum boundary', async () => {
+    // Arrange
+    const user = {
+      name: 'John Doe',
+      password: generateRandomString(7),
+    };
+
+    // Act
+    const response = await supertest(app).post('/api/users').send(user);
+
+    // Assert
+    expect(response.status).toBe(401);
+    expect(response.body).toEqual({error: 'Password must be between 8 and 16 characters'})
+  })
+
+  test('should create user with password at minimum boundary', async () => {
+    // Arrange
+    const user = {
+      name: 'John Doe',
+      password: generateRandomString(8),
+    };
+
+    // Act
+    const response = await supertest(app).post('/api/users').send(user);
+
+    // Assert
+    expect(response.status).toBe(201);
+    expect(response.body).toEqual({
+      id: expect.any(String),
+      name: user.name,
+      createdAt: expect.any(String),
+      updatedAt: expect.any(String),
+    })
+  })
+
+  test('should reject creating user if password is above maximum boundary', async () => {
+    // Arrange
+    const user = {
+      name: 'John Doe',
+      password: generateRandomString(17),
+    };
+
+    // Act
+    const response = await supertest(app).post('/api/users').send(user);
+
+    // Assert
+    expect(response.status).toBe(401);
+    expect(response.body).toEqual({error: 'Password must be between 8 and 16 characters'})
+  })
+
+  test('should create user with password at maximum boundary', async () => {
+    // Arrange
+    const user = {
+      name: 'John Doe',
+      password: generateRandomString(16),
+    };
+
+    // Act
+    const response = await supertest(app).post('/api/users').send(user);
+
+    // Assert
+    expect(response.status).toBe(201);
+    expect(response.body).toEqual({
+      id: expect.any(String),
+      name: user.name,
+      createdAt: expect.any(String),
+      updatedAt: expect.any(String),
+    })
+  })
 });
